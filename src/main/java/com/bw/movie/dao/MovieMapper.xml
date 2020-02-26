@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.bw.movie.dao.MovieMapper">
+  	<select id="selects" resultType="Movie">
+  		select * from t_movie
+  		
+  		<where>
+  			<if test="name!=null and name!='' ">
+  				and name like concat('%',#{name},'%')
+  			</if>
+  			
+  			<if test="t1!=null and t1!='' ">
+  				and uptime >=#{t1}
+  			</if>
+  			<if test="t2!=null and t2!='' ">
+  				and uptime &lt;=#{t2}
+  			</if>
+  			
+  			<if test="actor!=null and actor!='' ">
+  				and actor like concat('%',#{actor},'%')
+  			</if>
+  			
+  			<if test="p1!=null  and ''!=p1 ">
+  				and price >=#{p1}
+  			</if>
+  			<if test="p2!=null and ''!=p2  ">
+  				and price &lt;=#{p2}
+  			</if>
+  			
+  			<if test="years!=null and ''!=years " >
+  				and years=#{years}
+  			</if>
+  			
+  			<if test="l1!=null and ''!=l1  ">
+  				and longtime >=#{l1}
+  			</if>
+  			<if test="l2!=null and ''!=l2 ">
+  				and longtime &lt;=#{l2}
+  			</if>
+  				
+  		</where>
+  		
+  			<if test="(orderName!=null and orderName!='') and (orderMethod!=null and orderMethod!='')">
+  				order by ${orderName} ${orderMethod}
+  			</if>
+  			
+  	</select>
+  	
+  	<delete id="delete">
+  		delete from t_movie where id in 
+  		<foreach collection="array" item="id" open="(" close=")" separator=",">
+  			#{id}	
+  		</foreach> 
+  	</delete>
+  </mapper>
